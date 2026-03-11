@@ -1,5 +1,7 @@
 # AutoKernel
 
+[![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?logo=discord&logoColor=white)](https://discord.gg/UfEyc72t)
+
 **Autoresearch for GPU kernels.** Give it any PyTorch model, go to sleep, wake up to optimized Triton or CUDA C++ kernels.
 
 ![AutoKernel Progress](progress.png)
@@ -216,9 +218,9 @@ Built by the team behind [Forge](https://www.rightnowai.co/forge).
 
 Join our Discord to discuss GPU kernel optimization, share results, and get help:
 
-[![Discord](https://img.shields.io/discord/1234567890?color=5865F2&logo=discord&logoColor=white)](https://discord.com/invite/sSJqgNnq6X)
+[![Discord](https://img.shields.io/discord/1234567890?color=5865F2&logo=discord&logoColor=white)](https://discord.gg/UfEyc72t)
 
-**[Join the AutoKernel Discord](https://discord.com/invite/sSJqgNnq6X)**
+**[Join the AutoKernel Discord](https://discord.gg/UfEyc72t)**
 
 ## License
 
